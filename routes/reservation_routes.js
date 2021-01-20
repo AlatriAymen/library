@@ -4,6 +4,7 @@ const Book = require("../schemas/book");
 var crypto = require("crypto");
 const reservation = require("../schemas/reservation");
 var shasum = crypto.createHash("sha1");
+var functions = require("../getNewIdFunc");
 
 const router = Router();
 
@@ -39,14 +40,9 @@ router.post("/reservations", async (req, res) => {
   if (fetchedReservations.length == 0) {
     newId = "res_000";
   } else {
-    var reservationIdSplitted = fetchedReservations[
-      fetchedReservations.length - 1
-    ].reservation_id.split("_");
-
-    newId =
-      reservationIdSplitted[0] +
-      "_" +
-      (parseInt(reservationIdSplitted[1]) + 1).toString();
+    newId = functions.getNewId(
+      fetchedReservations[fetchedReservations.length - 1].reservation_id
+    );
   }
 
   var currentDate = new Date();

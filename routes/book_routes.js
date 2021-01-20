@@ -1,5 +1,6 @@
 const Router = require("express");
 const Book = require("../schemas/book");
+var functions = require("../getNewIdFunc");
 
 const router = Router();
 
@@ -29,14 +30,11 @@ router.get("/books", async (req, res) => {
 router.post("/books", async (req, res) => {
   const booksFetched = await Book.find({});
 
-  var bookReferenceSplitted = booksFetched[
-    booksFetched.length - 1
-  ].book_reference.split("_");
+  var newReference = functions.getNewId(
+    booksFetched[booksFetched.length - 1].book_reference
+  );
 
-  var newReference =
-    bookReferenceSplitted[0] +
-    "_" +
-    (parseInt(bookReferenceSplitted[1]) + 1).toString();
+  console.log(newReference);
 
   if (
     req.body.book_title == null ||
