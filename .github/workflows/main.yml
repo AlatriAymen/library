@@ -54,6 +54,5 @@ jobs:
       - run: npm install mocha --save
       - run: npm install nyc --save
       - run: npm covrage 
-      - run: npm test
     
         
