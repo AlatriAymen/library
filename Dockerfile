@@ -1,3 +1,5 @@
+FROM node
+
 ENV NODE_WORKDIR=/app
 
 WORKDIR ["${NODE_WORKDIR}"]
