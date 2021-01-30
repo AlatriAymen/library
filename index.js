@@ -37,7 +37,7 @@ app.use((req, res, next) => {
     case 204:
       {
         succReqs = succReqs + 1;
-        totalReqs = totlaReqs + 1;
+        totalReqs = totalReqs + 1;
       }
       break;
     case 400:
@@ -45,7 +45,7 @@ app.use((req, res, next) => {
       {
         errReqs = errReqs + 1;
 
-        totalReqs = totlaReqs + 1;
+        totalReqs = totalReqs + 1;
       }
       break;
   }
