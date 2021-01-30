@@ -10,8 +10,9 @@ app.use(express.urlencoded({ extended: true }));
 
 const uri = "mongodb://localhost:27017/library";
 
-var reqSuccRate = 0;
-var totlaReqs = 0;
+var succReqs = 0;
+var errReqs = 0;
+var totalReqs = 0;
 
 mongoose
   .connect(uri, {
@@ -35,25 +36,29 @@ app.use((req, res, next) => {
     case 201:
     case 204:
       {
-        reqSuccRate = (reqSuccRate * totlaReqs + 1) / (totlaReqs + 1);
-        totlaReqs = totlaReqs + 1;
+        succReqs = succReqs + 1;
+        totalReqs = totlaReqs + 1;
       }
       break;
     case 400:
     case 404:
       {
-        reqSuccRate = (reqSuccRate * totlaReqs) / (totlaReqs + 1);
-        totlaReqs = totlaReqs + 1;
+        errReqs = errReqs + 1;
+
+        totalReqs = totlaReqs + 1;
       }
       break;
   }
-  console.log(totlaReqs);
   next();
 });
 
-app.get("/metric", function (req, res) {
+app.get("/metrics", function (req, res) {
   res.status(200);
-  res.send("Success rate: " + reqSuccRate + "//" + totlaReqs);
+  res.send({
+    "Successful requests": succReqs,
+    "Unseccessful requests": errReqs,
+    "Total requests": totalReqs,
+  });
 });
 
 app.listen(8080);
